@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Détails du produit</h1>
+    <p>ID : {{ product.id }}</p>
+    <p>Libellé : {{ product.libelle }}</p>
+    <p>Prix : {{ product.prix }}</p>
+    <a href="{{ url_for('update_product', id=product.id) }}">Modifier</a>
+    <a href="{{ url_for('delete_product', id=product.id) }}">Supprimer</a>
+{% endblock %}

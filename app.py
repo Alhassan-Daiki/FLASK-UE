@@ -3,13 +3,16 @@ from urllib import request
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_bootstrap import Bootstrap
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'mysecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
+bootstrap = Bootstrap(app)
+
 db = SQLAlchemy(app)
 from modeles import User, Product, Role
 
@@ -122,10 +125,10 @@ def role_delete(role_id):
 
 
 # Read all products
-@app.route('/products')
+@app.route('/show_products')
 def show_products():
     products = Product.query.all()
-    return render_template('produits/show_products.html', products=products)
+    return render_template('products/show_products.html', products=products)
 
 
 
@@ -133,7 +136,7 @@ def show_products():
 @app.route('/product/<int:id>')
 def show_product(id):
     product = Product.query.get(id)
-    return render_template('produits/show_product.html', product=product)
+    return render_template('products/show_product.html', product=product)
 
 # Create a product
 @app.route('/product/create', methods=['GET', 'POST'])
@@ -145,7 +148,7 @@ def create_product():
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('show_products'))
-    return render_template('produits/create_product.html')
+    return render_template('products/create_product.html')
 
 
 # Update a product
@@ -157,7 +160,7 @@ def update_product(id):
         product.prix = request.form['prix']
         db.session.commit()
         return redirect(url_for('show_product', id=id))
-    return render_template('produits/update_product.html', product=product)
+    return render_template('products/update_product.html', product=product)
 
 # Delete a product
 @app.route('/product/delete/<int:id>', methods=['GET', 'POST'])
