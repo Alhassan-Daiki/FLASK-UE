@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Détails du produit</h1>
-    <p>ID : {{ product.id }}</p>
-    <p>Libellé : {{ product.libelle }}</p>
-    <p>Prix : {{ product.prix }}</p>
-    <a href="{{ url_for('update_product', id=product.id) }}">Modifier</a>
-    <a href="{{ url_for('delete_product', id=product.id) }}">Supprimer</a>
+<div class="container mt-5">
+    <h1 class="mb-4">Détails du produit</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">ID : {{ product.id }}</h5>
+            <p class="card-text">Libellé : {{ product.name }}</p>
+            <p class="card-text">Prix : {{ product.price }}</p>
+            <p class="card-text">Vendeur : {{ seller.nom }}</p>
+            <a href="{{ url_for('update_product', id=product.id) }}" class="btn btn-primary mr-3">Modifier</a>
+            <a href="{{ url_for('delete_product', id=product.id) }}" class="btn btn-danger">Supprimer</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

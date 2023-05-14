@@ -13,6 +13,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 bootstrap = Bootstrap(app)
 
+
 db = SQLAlchemy(app)
 from modeles import User, Product, Role
 
@@ -136,31 +137,38 @@ def show_products():
 @app.route('/product/<int:id>')
 def show_product(id):
     product = Product.query.get(id)
-    return render_template('products/show_product.html', product=product)
+    seller = product.seller
+    return render_template('products/show_product.html', product=product, seller=seller)
 
 # Create a product
 @app.route('/product/create', methods=['GET', 'POST'])
 def create_product():
     if request.method == 'POST':
-        libelle = request.form['libelle']
-        prix = request.form['prix']
-        product = Product(libelle=libelle, prix=prix)
+        name = request.form['name']
+        price = request.form['price']
+        seller_id = request.form['seller_id']
+        product = Product(name=name, price=price, seller_id=seller_id)
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('show_products'))
-    return render_template('products/create_product.html')
+    else:
+        users = User.query.all()
+        return render_template('products/create_product.html', users=users)
 
 
 # Update a product
 @app.route('/product/update/<int:id>', methods=['GET', 'POST'])
 def update_product(id):
     product = Product.query.get(id)
+    users = User.query.all()
     if request.method == 'POST':
-        product.libelle = request.form['libelle']
-        product.prix = request.form['prix']
+        product.name = request.form['name']
+        product.price = request.form['price']
+        product.seller_id = request.form['seller_id']
         db.session.commit()
         return redirect(url_for('show_product', id=id))
-    return render_template('products/update_product.html', product=product)
+    return render_template('products/update_product.html', product=product, users=users)
+
 
 # Delete a product
 @app.route('/product/delete/<int:id>', methods=['GET', 'POST'])

@@ -3,14 +3,22 @@
 {% block content %}
     <h1>Création d'un produit</h1>
     <form method="POST">
-        <div>
-            <label for="libelle">Libellé :</label>
-            <input type="text" id="libelle" name="libelle" required>
+        <div class="form-group">
+            <label for="name">Nom :</label>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        <div>
-            <label for="prix">Prix :</label>
-            <input type="number" id="prix" name="prix" step="0.01" required>
+        <div class="form-group">
+            <label for="price">Prix :</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" required>
         </div>
-        <button type="submit">Créer</button>
+        <div class="form-group">
+            <label for="seller_id">Users :</label>
+            <select class="form-control" id="seller_id" name="seller_id" required>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Créer</button>
     </form>
 {% endblock %}
