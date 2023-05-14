@@ -93,8 +93,7 @@ def role_detail(role_id):
 def role_create():
     if request.method == 'POST':
         nom = request.form['nom']
-        user_id = request.form['user_id']
-        role = Role(nom=nom, user_id=user_id)
+        role = Role(nom=nom)
         db.session.add(role)
         db.session.commit()
         flash('Le rôle a été créé avec succès', 'success')

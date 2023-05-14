@@ -1,3 +1,4 @@
+from sqlalchemy import CheckConstraint
 from app import db
 
 
@@ -14,6 +15,10 @@ class User(db.Model):
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(50), nullable=False)
+
+    __table_args__ = (
+        CheckConstraint(nom.in_(['admin', 'gerant']), name='check_role_nom'),
+    )
 
 user_roles = db.Table('user_roles',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
