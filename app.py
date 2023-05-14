@@ -51,13 +51,21 @@ def user_create():
         prenom = request.form['prenom']
         email = request.form['email']
         password = request.form['password']
+        role_id = request.form['role']
         user = User(nom=nom, prenom=prenom, email=email)
         user.set_password(password)  # hashage du mot de passe
+         # Récupérer le rôle associé à l'ID sélectionné
+        role = Role.query.get(role_id)
+        # Associer le rôle à l'utilisateur
+        user.roles.append(role)
+
         db.session.add(user)
         db.session.commit()
         flash('L\'utilisateur a été créé avec succès', 'success')
         return redirect(url_for('users'))
-    return render_template('users/create.html')
+    # Récupérer la liste des rôles depuis la base de données
+    roles = Role.query.all()
+    return render_template('users/create.html', roles=roles)
 
 
 #Modifier un utilisateur

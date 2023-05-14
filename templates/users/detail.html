@@ -17,6 +17,16 @@
       <th>Email</th>
       <td>{{ user.email }}</td>
     </tr>
+    <tr>
+      <th>Rôles</th>
+      <td>
+        <ul>
+          {% for role in user.roles %}
+            <li>{{ role.nom }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
   </table>
   <a href="{{ url_for('user_edit', user_id=user.id) }}" class="btn btn-warning mr-3">Modifier</a>
   <form action="{{ url_for('user_delete', user_id=user.id) }}" method="POST" class="d-inline-block">
