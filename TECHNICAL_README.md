@@ -21,3 +21,8 @@ pip install flask-login
 
 # VOIR LA LISTE DES PACKAGES INSTALLES
 pip freeze
+pip install Flask-Login
+
+# Toujours pour le Flask-Login
+
+pip install email-validator
