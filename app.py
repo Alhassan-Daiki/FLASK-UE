@@ -40,19 +40,25 @@ def user_detail(user_id):
     user = User.query.get_or_404(user_id)
     return render_template('users/detail.html', user=user)
 
-#Ajouter un utilisateur
+
+
+
+# Ajouter un utilisateur
 @app.route('/users/create', methods=['GET', 'POST'])
 def user_create():
     if request.method == 'POST':
         nom = request.form['nom']
         prenom = request.form['prenom']
         email = request.form['email']
+        password = request.form['password']
         user = User(nom=nom, prenom=prenom, email=email)
+        user.set_password(password)  # hashage du mot de passe
         db.session.add(user)
         db.session.commit()
         flash('L\'utilisateur a été créé avec succès', 'success')
         return redirect(url_for('users'))
     return render_template('users/create.html')
+
 
 #Modifier un utilisateur
 @app.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
