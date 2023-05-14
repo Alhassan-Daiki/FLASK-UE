@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Détail de l'utilisateur</h1>
+  <table class="table">
+    <tr>
+      <th>Nom</th>
+      <td>{{ user.nom }}</td>
+    </tr>
+    <tr>
+      <th>Prénom</th>
+      <td>{{ user.prenom }}</td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td>{{ user.email }}</td>
+    </tr>
+  </table>
+  <a href="{{ url_for('user_edit', user_id=user.id) }}" class="btn btn-warning">Modifier</a>
+  <form action="{{ url_for('user_delete', user_id=user.id) }}" method="POST" class="d-inline-block">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">Supprimer</button>
+  </form>
+{% endblock %}

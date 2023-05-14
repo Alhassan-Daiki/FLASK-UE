@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Liste des rôles</h1>
+  <a href="{{ url_for('role_create') }}" class="btn btn-primary">Ajouter un rôle</a>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for role in roles %}
+        <tr>
+          <td>{{ role.id }}</td>
+          <td>{{ role.nom }}</td>
+          <td>
+            <a href="{{ url_for('role_edit', role_id=role.id) }}" class="btn btn-primary">Modifier</a>
+            <form action="{{ url_for('role_delete', role_id=role.id) }}" method="post" style="display: inline-block">
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce rôle ?')">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
