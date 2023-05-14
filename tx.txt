@@ -1,0 +1,82 @@
+D'accord, voici un exemple d'application Flask qui suit la structure que vous avez demandée:
+
+models.py:
+
+python
+Copy code
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+class Utilisateur(db.Model):
+    __tablename__ = 'utilisateurs'
+    id_utilisateur = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(50))
+    prenom = db.Column(db.String(50))
+    email = db.Column(db.String(120))
+
+class Produit(db.Model):
+    __tablename__ = 'produits'
+    id_produit = db.Column(db.Integer, primary_key=True)
+    libelle = db.Column(db.String(50))
+    prix = db.Column(db.Float)
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id_role = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(50))
+    utilisateurs = db.relationship('Utilisateur', backref='role', lazy=True)
+app.py:
+
+python
+Copy code
+from flask import Flask, render_template
+from models import db, Utilisateur, Produit, Role
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run()
+index.html:
+
+html
+Copy code
+<!doctype html>
+<html>
+  <head>
+    <title>My App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <h1>Welcome to My App</h1>
+  </body>
+</html>
+Ceci est une structure de base pour l'application Flask que vous avez demandée. Les modèles de données ont été définis dans models.py, app.py contient la configuration de l'application Flask et la définition des routes, et index.html est une simple page d'accueil qui utilise un fichier de style CSS.
+
+Pour exécuter l'application, vous devez d'abord créer la base de données en exécutant ces commandes dans un terminal:
+
+arduino
+Copy code
+export FLASK_APP=app.py
+flask db init
+flask db migrate
+flask db upgrade
+Ces commandes vont initialiser la base de données, créer les tables correspondantes et appliquer les migrations.
+
+Ensuite, vous pouvez lancer l'application en exécutant cette commande dans un terminal:
+
+arduino
+Copy code
+flask run
+Ceci lancera l'application Flask et vous pourrez y accéder en ouvrant un navigateur et en naviguant à l'URL http://127.0.0.1:5000/.
+
+
+
+
