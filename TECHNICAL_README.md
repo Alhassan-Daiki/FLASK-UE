@@ -11,3 +11,10 @@ flask db init
 # CREATION DE LA BASE DE DONNEES
 flask db migrate
 
+# Werkzeug : pour le hachage des mots de passe et la sécurité
+
+pip install Werkzeug
+
+# Flask-Login : pour la gestion des sessions utilisateur
+
+pip install Flask-Login
