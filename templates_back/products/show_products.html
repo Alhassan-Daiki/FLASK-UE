@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Products List</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Libelle</th>
+        <th>Prix</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.libelle }}</td>
+          <td>{{ product.prix }}</td>
+          <td>
+            <a href="{{ url_for('show_product', id=product.id) }}" class="btn btn-primary">Show</a>
+            <a href="{{ url_for('update_product', id=product.id) }}" class="btn btn-warning">Edit</a>
+            <form action="{{ url_for('delete_product', id=product.id) }}" method="POST" class="d-inline-block">
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet produit ?')">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{{ url_for('create_product') }}" class="btn btn-success">Create a Product</a>
+{% endblock %}
