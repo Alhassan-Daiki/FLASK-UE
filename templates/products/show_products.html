@@ -16,8 +16,8 @@
       {% for product in products %}
         <tr>
           <td>{{ product.id }}</td>
-          <td>{{ product.libelle }}</td>
-          <td>{{ product.prix }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
           <td>
             <a href="{{ url_for('show_product', id=product.id) }}" class="btn btn-primary">Show</a>
             <a href="{{ url_for('update_product', id=product.id) }}" class="btn btn-warning">Edit</a>

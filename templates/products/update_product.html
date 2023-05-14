@@ -3,14 +3,22 @@
 {% block content %}
     <h1>Modification d'un produit</h1>
     <form method="POST">
-        <div>
+        <div class="form-group">
             <label for="libelle">Libellé :</label>
-            <input type="text" id="libelle" name="libelle" value="{{ product.libelle }}" required>
+            <input type="text" class="form-control" id="name" name="name" value="{{ product.name }}" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="prix">Prix :</label>
-            <input type="number" id="prix" name="prix" value="{{ product.prix }}" step="0.01" required>
+            <input type="number" class="form-control" id="price" name="price" value="{{ product.price }}" step="0.01" required>
         </div>
-        <button type="submit">Modifier</button>
+        <div class="form-group">
+            <label for="seller_id">Sélectionner un utilisateur :</label>
+            <select class="form-control" id="seller_id" name="seller_id">
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Modifier</button>
     </form>
 {% endblock %}
