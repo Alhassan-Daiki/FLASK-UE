@@ -18,3 +18,7 @@ pip install Werkzeug
 # Flask-Login : pour la gestion des sessions utilisateur
 
 pip install Flask-Login
+
+# Toujours pour le Flask-Login
+
+pip install email-validator
