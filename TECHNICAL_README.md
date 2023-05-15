@@ -26,3 +26,8 @@ pip install Flask-Login
 # Toujours pour le Flask-Login
 
 pip install email-validator
+
+
+# Flask-WTF est une extension Flask qui facilite la création de formulaires Web
+
+pip install flask-wtf
