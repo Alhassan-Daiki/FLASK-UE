@@ -7,7 +7,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import login_user,current_user, logout_user, login_required, LoginManager
 
 from forms import LoginForm, RegistrationForm
-from flask import abort
+from flask import abort, session
 from pprint import pprint
 
 
@@ -30,8 +30,17 @@ migrate = Migrate(app, db)
 def create_app():
     db.init_app(app)
 
-
 @app.route('/')
+def load_login():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    else:
+        return render_template('base.html')
+
+
+
+@app.route('/home')
+@login_required
 def index():
     return render_template('base.html')
 
@@ -215,6 +224,8 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Vous êtes maintenant connecté !', 'success')
+            session['user_id'] = user.id
+
             return redirect(url_for('index'))
         else:
             flash('Adresse email ou mot de passe invalide.', 'danger')
@@ -239,7 +250,11 @@ def register():
 @login_required
 def logout():
     logout_user()
+    session.pop('user_id', None)
+
     return redirect(url_for('login'))
+
+
 
 if __name__ == '__main__':
     create_app()
