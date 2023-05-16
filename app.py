@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from flask_login import login_user,current_user, logout_user, login_required, LoginManager
 
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, CreateForme
 from flask import abort, session
 from pprint import pprint
 
@@ -62,7 +62,7 @@ def user_detail(user_id):
 
 
 
-
+"""
 # Ajouter un utilisateur
 @app.route('/users/create', methods=['GET', 'POST'])
 def user_create():
@@ -86,7 +86,35 @@ def user_create():
     # Récupérer la liste des rôles depuis la base de données
     roles = Role.query.all()
     return render_template('users/create.html', roles=roles)
+"""
 
+@app.route('/users/create', methods=['GET', 'POST'])
+def user_create():
+    form = CreateForme()
+    form.role.choices = [(role.id, role.nom) for role in Role.query.all()]  # Récupérer les rôles depuis la base de données
+
+    if request.method == 'POST':
+        nom = form.nom.data
+        prenom = form.prenom.data
+        email = form.email.data
+        password = form.password.data
+        role_id = form.role.data
+        user = User(nom=nom, prenom=prenom, email=email)
+        user.set_password(password)  # Hashage du mot de passe
+        
+        # Récupérer le rôle associé à l'ID sélectionné
+        role = Role.query.get(role_id)
+        # Associer le rôle à l'utilisateur
+        user.roles.append(role)
+
+        db.session.add(user)
+        db.session.commit()
+        flash('L\'utilisateur a été créé avec succès', 'success')
+        return redirect(url_for('users'))
+    
+    # Récupérer la liste des rôles depuis la base de données
+    roles = Role.query.all()
+    return render_template('users/create.html', form=form, roles=roles)
 
 #Modifier un utilisateur
 @app.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])

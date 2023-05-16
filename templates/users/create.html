@@ -3,31 +3,22 @@
 {% block content %}
     <h1>Ajouter un utilisateur</h1>
     <form method="POST">
+        {{ form.csrf_token }}
         <div class="form-group">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" class="form-control" required>
+            {{ form.nom.label }} {{ form.nom(class_='form-control', required=True) }}
         </div>
         <div class="form-group">
-            <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" name="prenom" class="form-control" required>
+            {{ form.prenom.label }} {{ form.prenom(class_='form-control', required=True) }}
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" required>
+            {{ form.email.label }} {{ form.email(class_='form-control', required=True) }}
         </div>
         <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+            {{ form.password.label }} {{ form.password(class_='form-control', required=True) }}
         </div>
         <div class="form-group">
-            <label for="role">Rôle</label>
-            <select id="role" name="role" class="form-control">
-                {% for role in roles %}
-                    <option value="{{ role.id }}">{{ role.nom }}</option>
-                {% endfor %}
-            </select>
+            {{ form.role.label }} {{ form.role(class_='form-control') }}
         </div>
         <button type="submit" class="btn btn-primary">Enregistrer</button>
-</form>
-
+    </form>
 {% endblock %}

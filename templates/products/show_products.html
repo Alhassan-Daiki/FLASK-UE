@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <a href="{{ url_for('create_product') }}" class="btn btn-success">Create a Product</a>
   <h1>Products List</h1>
   <table class="table">
